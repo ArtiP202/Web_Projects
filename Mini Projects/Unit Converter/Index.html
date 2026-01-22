@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unit Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .converter {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label, select, input {
+      display: block;
+      margin: 15px 0 5px;
+      width: 100%;
+    }
+
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter">
+    <h2>Unit Converter</h2>
+    <label for="inputValue">Enter value:</label>
+    <input type="number" id="inputValue" placeholder="Enter value">
+
+    <label for="fromUnit">From:</label>
+    <select id="fromUnit">
+      <option value="meters">Meters</option>
+      <option value="kilometers">Kilometers</option>
+      <option value="miles">Miles</option>
+    </select>
+
+    <label for="toUnit">To:</label>
+    <select id="toUnit">
+      <option value="meters">Meters</option>
+      <option value="kilometers">Kilometers</option>
+      <option value="miles">Miles</option>
+    </select>
+
+    <div class="result" id="result">Result: 0</div>
+  </div>
+
+  <script>
+    const inputValue = document.getElementById('inputValue');
+    const fromUnit = document.getElementById('fromUnit');
+    const toUnit = document.getElementById('toUnit');
+    const result = document.getElementById('result');
+
+    function convertUnits() {
+      const value = parseFloat(inputValue.value);
+      if (isNaN(value)) {
+        result.textContent = 'Result: 0';
+        return;
+      }
+
+      let meters;
+
+      // Convert from any unit to meters
+      switch (fromUnit.value) {
+        case 'meters':
+          meters = value;
+          break;
+        case 'kilometers':
+          meters = value * 1000;
+          break;
+        case 'miles':
+          meters = value * 1609.34;
+          break;
+      }
+
+      // Convert meters to target unit
+      let converted;
+      switch (toUnit.value) {
+        case 'meters':
+          converted = meters;
+          break;
+        case 'kilometers':
+          converted = meters / 1000;
+          break;
+        case 'miles':
+          converted = meters / 1609.34;
+          break;
+      }
+
+      result.textContent = `Result: ${converted.toFixed(4)} ${toUnit.value}`;
+    }
+
+    inputValue.addEventListener('input', convertUnits);
+    fromUnit.addEventListener('change', convertUnits);
+    toUnit.addEventListener('change', convertUnits);
+  </script>
+</body>
+</html>
